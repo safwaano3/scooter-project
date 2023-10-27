@@ -30,17 +30,49 @@ class ScooterApp {
       throw new Error("Username or password is incorrect")
     }
   }
-  
+  logoutUser(username){
+    const user = this.registeredUsers[username];
+    if(user){
+      user.logout();
+      console.log("user is logged out")
+    } else {
+      throw new Error("no such user is logged in")
+    }
+  }
+  createScooter(station){
+    const keys = Object.keys(this.stations); //you get an array of keys
+    if(keys.includes(station) === true){ // it is checking if the station exists
+      const scooter = new Scooter(station); // this is creating a new user because we are trying to add them to be a new user
+      this.stations[station].push(scooter); //username is the key, user is the newly created and we are adding the new user to the registered users
+      console.log("created new scooter")
+    } else {
+      throw new Error ("no such station")
+    }
+  }
+  dockScooter(scooter, station){
+    const keys = Object.keys(this.stations);
+    if(keys.includes(station) === false){
+      throw new Error("no such station")
+    } else if (scooter.station !== null){
+      throw new Error("scooter already at station")
+    } else{
+      scooter.dock(station)
+      console.log("scooter is docked")
+    }
+  }
+  rentScooter(scooter,user){
+    if (scooter.user !== null){
+      throw new Error("scooter already rented")
+    } else{
+      scooter.rent(user)
+      console.log("scooter is rented")
+    }
+  }
+  print(){
+    console.log(this.registeredUsers)
+    console.log(this.stations)
+  }
+
 }
 
 module.exports = ScooterApp
-
-const registeredUsers = {
-  Mil: User {username: "Mil", password: "1234" ...},
-  Mil: User {username: "Mil", password: "1234" ...},
-  Mil: User {username: "Mil", password: "1234" ...},
-}
-
-
-console.log(keys);
-
